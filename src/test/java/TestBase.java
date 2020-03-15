@@ -1,10 +1,10 @@
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import site.DemoSiteClass;
+import site.DemoSite;
 
 public class TestBase {
-    public static ThreadLocal<DemoSiteClass> tlApp = new ThreadLocal<>();
-    public static DemoSiteClass demoSite;
+    public static ThreadLocal<DemoSite> tlApp = new ThreadLocal<>();
+    public static DemoSite demoSite;
 
     @BeforeAll
     public static void setUp() {
@@ -13,7 +13,7 @@ public class TestBase {
             return;
         }
 
-        demoSite = new DemoSiteClass();
+        demoSite = new DemoSite();
         tlApp.set(demoSite);
 
         Runtime.getRuntime().addShutdownHook(

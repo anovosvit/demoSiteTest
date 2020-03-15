@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -8,7 +9,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
-public class HomePageClass extends BasePageClass {
+public class HomePage extends BasePage {
     @FindBy(className = "welcome-msg")
     WebElement welcomeMessage;
 
@@ -18,23 +19,17 @@ public class HomePageClass extends BasePageClass {
     @FindBy(xpath = "//*[@id='nav']//a")
     List<WebElement> menuItems;
 
-    @FindBy(xpath = "//span[contains(text(), 'Account')]")
-    WebElement accountLink;
-
-    @FindBy(xpath = "//span[contains(text(), 'Cart')]")
-    WebElement cartLink;
-
     @FindBy(xpath = "//input[@id='search']")
     WebElement searchInput;
 
-    private String url = "http://live.demoguru99.com/";
+    String url = "http://live.demoguru99.com/";
 
-    public HomePageClass(WebDriver driver) {
+    public HomePage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
 
-    public HomePageClass open() {
+    public HomePage open() {
         driver.get(url);
         return this;
     }
@@ -51,8 +46,16 @@ public class HomePageClass extends BasePageClass {
         return welcomeMessage.getText();
     }
 
-    public MobilePageClass clickMobileLink() {
+    public MobilePage clickMobileLink() {
         menuItems.get(0).click();
-        return new MobilePageClass(driver);
+        return new MobilePage(driver);
     }
+
+    public SearchResultPage searchItem(String searchText) {
+        searchInput.clear();
+        searchInput.sendKeys(searchText);
+        searchInput.sendKeys(Keys.ENTER);
+        return new SearchResultPage(driver);
+    }
+
 }

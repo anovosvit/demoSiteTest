@@ -1,17 +1,19 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pages.HomePageClass;
-import pages.MobilePageClass;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import pages.HomePage;
+import pages.MobilePage;
+import pages.SearchResultPage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class HomePageTest extends TestBase{
+public class HomePageTest extends TestBase {
+    HomePage homePage = demoSite.getHomePage();
     private String titleText = "Home page";
     private String h2Text = "This is demo site for";
     private String welcome = "Default welcome msg!";
-    HomePageClass homePage = demoSite.getHomePage();
-    MobilePageClass mobilePage;
 
     @BeforeEach
     void openHomePage() {
@@ -46,8 +48,29 @@ public class HomePageTest extends TestBase{
     @DisplayName("Go to Mobile Page")
     void goToMobilePage() {
         if (homePage.isOnThisPage()) {
-            mobilePage = homePage.clickMobileLink();
-            assertEquals("Mobile", demoSite.getMobilePage().getTitle());
+            MobilePage mobilePage = homePage.clickMobileLink();
+            assertEquals("Mobile", mobilePage.getTitle());
         }
     }
+
+    @ParameterizedTest(name = "#{index} - Search with args={0}")
+    @ValueSource(strings = {
+            "sony",
+            " ",
+            "Milk - Chocolate 500ml",
+            "Crab - Back Fin Meat, Canned",
+            "Pastry - Butterscotch Baked"
+    })
+    void searchSomething(String searchString) {
+        SearchResultPage searchResultPage = homePage.searchItem(searchString);
+        String expectedString = String.format("SEARCH RESULTS FOR '%s'", searchString).toUpperCase();
+
+        if (searchString.strip().isEmpty()){
+            assertEquals(titleText, searchResultPage.getTitle());
+        }
+        else {
+            assertEquals(expectedString, searchResultPage.getSearchResultText());
+        }
+    }
+
 }
