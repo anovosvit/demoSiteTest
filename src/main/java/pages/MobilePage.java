@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MobilePage extends BasePage {
+    @FindBy(css = "select[title=\"Sort By\"]")
+    WebElement sortSelector;
+
     @FindBy(xpath = "//*[@title = 'Grid']")
     WebElement viewAsGridMode;
 
@@ -20,16 +23,14 @@ public class MobilePage extends BasePage {
     @FindBy(xpath = "//*[@title = 'Results per page']")
     WebElement resultPerPageSelect;
 
-    Select selectResultPerPage;
-
     @FindBy(className = "item last")
     List<WebElement> itemsList;
 
-    @FindBy(tagName = "h2")
-    WebElement itemName;
-
     @FindBy(className = "regular-price")
     WebElement regularPrice;
+
+    @FindBy(xpath = "//h2[@class='product-name']//a")
+    WebElement itemName;
 
     @FindBy(xpath = "//p[@class='old-price']/span[@class='price']")
     WebElement oldPrice;
@@ -37,14 +38,23 @@ public class MobilePage extends BasePage {
     @FindBy(xpath = "//p[@class='special-price']/span[@class='price']")
     WebElement specialPrice;
 
+    @FindBy(xpath = "//*[@class='desc std']")
+    WebElement itemDescription;
+
+    @FindBy(className = "link-learn")
+    WebElement aboutItemLink;
+
     @FindBy(className = "button btn-cart")
-    WebElement addToCartButton;
+    List<WebElement> addToCartButtonList;
 
     @FindBy(className = "link-wishlist")
     WebElement addToWishListButton;
 
     @FindBy(className = "link-compare")
     WebElement addToCompareButton;
+
+    @FindBy(className = "success-msg")
+    WebElement successCompareText;
 
     private String url = "http://live.demoguru99.com/index.php/mobile.html";
 
@@ -53,36 +63,43 @@ public class MobilePage extends BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    public List<WebElement> getItemsList() {
-        return itemsList;
-    }
-
-    public List<String> getItemNames() {
-        List<String> itemNames = new ArrayList<>();
-        for (WebElement item : itemsList) {
-            itemNames.add(item.getText());
-        }
-        return itemNames;
-    }
-
     public String getItemName() {
         return itemName.getText();
-    }
-
-    public boolean isSpecialPrice() {
-        return driver.findElements(By.xpath("//div[@class='price-box']/p")).size() > 0;
     }
 
     public String getRegularPrice() {
         return regularPrice.getText();
     }
 
-    public String getOldPrice() {
-        return oldPrice.getText();
+    public String getItemDescription() {
+        return itemDescription.getText();
     }
 
-    public String getSpecialPrice() {
-        return specialPrice.getText();
+    public String getSuccessCompareText() {
+        return successCompareText.getText();
+    }
+
+    public ItemInfoPage clickLearnMore() {
+        aboutItemLink.click();
+        return new ItemInfoPage(driver);
+    }
+
+    public WishlistPage addToWishList() {
+        addToWishListButton.click();
+        return new WishlistPage(driver);
+    }
+
+    public MobilePage addToCompare() {
+        addToCompareButton.click();
+        return this;
+    }
+
+    public List<WebElement> getItemsList() {
+        return itemsList;
+    }
+
+    public boolean isSpecialPrice() {
+        return driver.findElements(By.xpath("//div[@class='price-box']/p")).size() > 0;
     }
 
     public MobilePage open() {
@@ -90,14 +107,8 @@ public class MobilePage extends BasePage {
         return this;
     }
 
-    public MobilePage refresh() {
-        driver.navigate().refresh();
-        return this;
-    }
-
-    public MobilePage sortBy() {
-        Select selectForSort = new Select(driver.findElement(By.cssSelector("/select[title='Sort By']")));
-        selectForSort.selectByVisibleText("Name");
+    public MobilePage sortBy(String sortName) {
+        new Select(sortSelector).selectByVisibleText(sortName);
         return this;
     }
 
@@ -112,29 +123,26 @@ public class MobilePage extends BasePage {
     }
 
     public MobilePage selectResultPerPage(String numItems) {
-        selectResultPerPage = new Select(resultPerPageSelect);
-        selectResultPerPage.selectByVisibleText(numItems);
+        new Select(resultPerPageSelect).selectByVisibleText(numItems);
         return this;
     }
 
     public CartPage addToCart() {
-        addToCartButton.click();
+        addToCartButtonList.get(0).click();
         return new CartPage(driver);
     }
 
-    public WishlistPage addToWishList() {
-        addToWishListButton.click();
-        return new WishlistPage(driver);
+    public List<String> getItemNames() {
+        List<String> itemNames = new ArrayList<>();
+        for (WebElement item : itemsList) {
+            itemNames.add(item.getText());
+        }
+        return itemNames;
     }
 
-    public MobilePage addToCompare() {
-        addToCompareButton.click();
-        return this;
+    public List<String> getPriceList() {
+        List<String> priceList = new ArrayList<>();
+        //TODO: Сделать список цен
+        return priceList;
     }
-
-    public ItemInfoPage goToItemInfoPage() {
-        itemName.click();
-        return new ItemInfoPage(driver);
-    }
-
 }
