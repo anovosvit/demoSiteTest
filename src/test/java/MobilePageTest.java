@@ -97,13 +97,22 @@ public class MobilePageTest extends TestBase {
     }
 
     @Test
-    @Disabled
-    @DisplayName("Add all items to cart (Grid Mode)")
-    void addAllToCart() {
+    @DisplayName("Add item to cart (Grid Mode)")
+    void addToCart() {
         mobilePage.makeGridView();
         CartPage cartPage = mobilePage.addToCart();
         String actualInfo = cartPage.getPageInfo();
-        String expectedInfo = "Shopping Cart";
+        String expectedInfo = "SHOPPING CART";
+        assertEquals(expectedInfo, actualInfo);
+    }
+
+    @Test
+    @DisplayName("Add item to cart (List Mode)")
+    void addToCartListMode() {
+        mobilePage.makeListView();
+        CartPage cartPage = mobilePage.addToCart();
+        String actualInfo = cartPage.getPageInfo();
+        String expectedInfo = "SHOPPING CART";
         assertEquals(expectedInfo, actualInfo);
     }
 

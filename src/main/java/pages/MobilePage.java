@@ -44,8 +44,8 @@ public class MobilePage extends BasePage {
     @FindBy(className = "link-learn")
     WebElement aboutItemLink;
 
-    @FindBy(className = "button btn-cart")
-    List<WebElement> addToCartButtonList;
+    @FindBy(xpath = "//button[@title='Add to Cart']")
+    WebElement addToCartButton;
 
     @FindBy(className = "link-wishlist")
     WebElement addToWishListButton;
@@ -128,7 +128,7 @@ public class MobilePage extends BasePage {
     }
 
     public CartPage addToCart() {
-        addToCartButtonList.get(0).click();
+        addToCartButton.click();
         return new CartPage(driver);
     }
 

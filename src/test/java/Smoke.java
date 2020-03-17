@@ -48,5 +48,4 @@ public class Smoke extends TestBase {
     }
 
 
-
 }

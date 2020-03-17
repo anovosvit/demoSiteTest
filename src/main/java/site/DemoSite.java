@@ -55,6 +55,9 @@ public class DemoSite {
         return mobilePage.open();
     }
 
+    public CartPage openCartPage() {
+        return cartPage.open();
+    }
 
     public void quit() {
         driver.quit();
