@@ -10,9 +10,6 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 
 public class HomePage extends BasePage {
-    @FindBy(className = "welcome-msg")
-    WebElement welcomeMessage;
-
     @FindBy(tagName = "h2")
     WebElement pageInfoText;
 
@@ -42,9 +39,6 @@ public class HomePage extends BasePage {
         return pageInfoText.getText();
     }
 
-    public String getWelcomeText() {
-        return welcomeMessage.getText();
-    }
 
     public MobilePage clickMobileLink() {
         menuItems.get(0).click();

@@ -16,6 +16,9 @@ public abstract class BasePage {
     @FindBy(xpath = "//span[contains(text(), 'Cart')]")
     WebElement cartLink;
 
+    @FindBy(className = "welcome-msg")
+    WebElement welcomeMessage;
+
     public BasePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, 10);
@@ -23,6 +26,10 @@ public abstract class BasePage {
 
     public String getTitle() {
         return driver.getTitle();
+    }
+
+    public String getWelcomeText() {
+        return welcomeMessage.getText();
     }
 
 }
