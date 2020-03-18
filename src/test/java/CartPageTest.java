@@ -13,7 +13,7 @@ public class CartPageTest extends TestBase {
     CartPage cartPage = demoSite.getCartPage();
 
     @BeforeEach
-    void openHomePage() {
+    void openCartPage() {
         demoSite.openCartPage();
     }
 

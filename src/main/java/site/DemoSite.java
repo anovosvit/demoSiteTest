@@ -12,6 +12,8 @@ public class DemoSite {
     private ItemInfoPage itemInfoPage;
     private CartPage cartPage;
     private WishlistPage wishlistPage;
+    private LoginPage loginPage;
+    private CreateAccountPage createAccountPage;
 
     public DemoSite() {
         this.driver = new ChromeDriver();
@@ -21,6 +23,8 @@ public class DemoSite {
         this.itemInfoPage = new ItemInfoPage(driver);
         this.cartPage = new CartPage(driver);
         this.wishlistPage = new WishlistPage(driver);
+        this.loginPage = new LoginPage(driver);
+        this.createAccountPage = new CreateAccountPage(driver);
     }
 
     public HomePage getHomePage() {
@@ -57,6 +61,14 @@ public class DemoSite {
 
     public CartPage openCartPage() {
         return cartPage.open();
+    }
+
+    public LoginPage openLoginPage() {
+        return loginPage.open();
+    }
+
+    public CreateAccountPage openCreateAccountPage() {
+        return createAccountPage.open();
     }
 
     public void quit() {

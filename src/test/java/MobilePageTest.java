@@ -18,7 +18,7 @@ public class MobilePageTest extends TestBase {
     private String welcome = "Default welcome msg!";
 
     @BeforeEach
-    void openHomePage() {
+    void openMobilePage() {
         demoSite.openMobilePage();
     }
 
