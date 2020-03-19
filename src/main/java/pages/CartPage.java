@@ -37,6 +37,9 @@ public class CartPage extends BasePage {
     @FindBy(xpath = "//td[@class=\"a-center product-cart-remove last\"]/a")
     WebElement removeItemButton;
 
+    @FindBy(xpath = "//button[@title=\"Proceed to Checkout\"]")
+    WebElement toCheckoutButton;
+
     String url = "http://live.demoguru99.com/index.php/checkout/cart/";
 
     public CartPage(WebDriver driver) {
@@ -83,6 +86,11 @@ public class CartPage extends BasePage {
 
     public boolean isOnThisPage() {
         return driver.findElements(By.xpath("//*[@id='nav']//a")).size() > 0;
+    }
+
+    public CheckoutPage goToCheckout() {
+        toCheckoutButton.click();
+        return new CheckoutPage(driver);
     }
 
 }

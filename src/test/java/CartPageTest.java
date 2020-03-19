@@ -55,7 +55,7 @@ public class CartPageTest extends TestBase {
     @ValueSource(strings = {
             "1", "500"
     })
-    void addnAvailableItems(String count) {
+    void addAvailableItems(String count) {
         MobilePage mobilePage = demoSite.openMobilePage();
         CartPage cartPage = mobilePage.addToCart();
         cartPage.fillAndUpdQty(count);

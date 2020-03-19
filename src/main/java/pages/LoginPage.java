@@ -7,34 +7,29 @@ import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage extends BasePage {
 
+    @FindBy(tagName = "h1")
+    WebElement pageInfo;
+    @FindBy(xpath = "//a[@title='Create an Account']")
+    WebElement createAccountButton;
+    @FindBy(xpath = "//input[@id='email']")
+    WebElement emailInput;
+    @FindBy(xpath = "//input[@id='pass']")
+    WebElement passwordInput;
+    @FindBy(xpath = "//button[@id='send2']")
+    WebElement loginButton;
+    @FindBy(className = "validation-advice")
+    WebElement validateMessage;
+    @FindBy(xpath = "//li[@class='error-msg']")
+    WebElement invalidMessage;
+    @FindBy(xpath = "//a[contains(text(),'Mobile')]")
+    WebElement gotoMobileLink;
+
+    private String url = "http://live.demoguru99.com/index.php/customer/account/login/";
+
     public LoginPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
-
-    private String url = "http://live.demoguru99.com/index.php/customer/account/login/";
-
-    @FindBy(tagName = "h1")
-    WebElement pageInfo;
-
-    @FindBy(xpath = "//a[@title='Create an Account']")
-    WebElement createAccountButton;
-
-    @FindBy(xpath = "//input[@id='email']")
-    WebElement emailInput;
-
-    @FindBy(xpath = "//input[@id='pass']")
-    WebElement passwordInput;
-
-    @FindBy(xpath = "//button[@id='send2']")
-    WebElement loginButton;
-
-    @FindBy(className = "validation-advice")
-    WebElement validateMessage;
-
-    @FindBy(xpath = "//li[@class='error-msg']")
-    WebElement invalidMessage;
-
 
     public LoginPage open() {
         driver.get(url);
@@ -70,5 +65,10 @@ public class LoginPage extends BasePage {
 
     public String getInvalidMessage() {
         return invalidMessage.getText();
+    }
+
+    public MobilePage goToMobile() {
+        gotoMobileLink.click();
+        return new MobilePage(driver);
     }
 }

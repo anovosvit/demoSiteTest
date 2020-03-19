@@ -2,7 +2,10 @@ package site;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import pages.*;
+
+import java.util.concurrent.TimeUnit;
 
 public class DemoSite {
     private WebDriver driver;
@@ -14,6 +17,7 @@ public class DemoSite {
     private WishlistPage wishlistPage;
     private LoginPage loginPage;
     private CreateAccountPage createAccountPage;
+    private CheckoutPage checkoutPage;
 
     public DemoSite() {
         this.driver = new ChromeDriver();
@@ -25,6 +29,13 @@ public class DemoSite {
         this.wishlistPage = new WishlistPage(driver);
         this.loginPage = new LoginPage(driver);
         this.createAccountPage = new CreateAccountPage(driver);
+        this.checkoutPage = new CheckoutPage(driver);
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+    }
+
+    public WebDriver getDriver() {
+        return driver;
     }
 
     public HomePage getHomePage() {

@@ -1,21 +1,22 @@
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.CsvSource;
 import pages.CreateAccountPage;
 import pages.LoginPage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class LoginPageTest extends TestBase {
-    LoginPage loginPage;
+    LoginPage loginPage = demoSite.openLoginPage();
+
     @BeforeEach
     void openLoginPage() {
-        loginPage.open();
+        demoSite.openLoginPage();
     }
 
     @Test
+    @Order(1)
     @DisplayName("Page Info")
     void checkPageInfo() {
         String expectedInfo = "LOGIN OR CREATE AN ACCOUNT";
@@ -24,7 +25,8 @@ public class LoginPageTest extends TestBase {
     }
 
     @Test
-    @DisplayName("Page Title")
+    @Order(2)
+    @DisplayName("page Title")
     void checkTitle() {
         String expectedTitle = "Customer Login";
         String actualTitle = loginPage.getTitle();
@@ -32,14 +34,16 @@ public class LoginPageTest extends TestBase {
     }
 
     @Test
-    @DisplayName("Go to create account page")
+    @Order(3)
+    @DisplayName("go to create account page")
     void goToCreateAccount() {
         CreateAccountPage accountPage = loginPage.clickOnCreateAccountButton();
         assertEquals("Create New Customer Account", accountPage.getTitle());
     }
 
     @ParameterizedTest(name = "#{index} - Login with invalid creds")
-    @ValueSource(strings = {
+    @Order(4)
+    @CsvSource({
             "tlekeux1@plala.or.jp, NCmcrMcgWm3",
             "atiffin2@prlog.org, voPtaf-qezjih-hephy9",
             "lyonka1@mail.ru, LKBN5zCnY"
@@ -51,17 +55,25 @@ public class LoginPageTest extends TestBase {
         assertEquals("Invalid login or password.", loginPage.getInvalidMessage());
     }
 
-    @ParameterizedTest(name = "#{index} - Login with empty data")
-    @ValueSource(strings = {
-            " , NCmcrMcgWm3",
-            "atiffin2@prlog.org, ",
-            " ,  "
-    })
-    void loginWithEmptyCreds(String email, String password) {
-        loginPage.fillOutEmailInput(email);
-        loginPage.fillOutPasswordInput(password);
+    @Test
+    @Order(5)
+    @DisplayName("Login with empty data")
+    void loginWithEmptyCreds() {
+        loginPage.fillOutEmailInput(" ");
+        loginPage.fillOutPasswordInput(" ");
         loginPage.clickLogin();
         assertEquals("This is a required field.", loginPage.getValidateMessage());
     }
 
+    @ParameterizedTest(name = "#{index} - Success login")
+    @Order(6)
+    @CsvSource({
+            "lyonka1@mail.ru, voPtaf-qezjih-hephy9"
+    })
+    void successLogin(String email, String password) {
+        loginPage.fillOutEmailInput(email);
+        loginPage.fillOutPasswordInput(password);
+        loginPage.clickLogin();
+        assertEquals("MY DASHBOARD", loginPage.getPageInfo());
+    }
 }
