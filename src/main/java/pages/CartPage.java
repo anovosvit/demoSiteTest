@@ -1,6 +1,5 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,17 +9,8 @@ public class CartPage extends BasePage {
     @FindBy(tagName = "h1")
     WebElement pageInfo;
 
-    @FindBy(id = "shopping-cart-table")
-    WebElement orderTable;
-
-    @FindBy(xpath = "//h2[@class='product-name']")
-    WebElement itemName;
-
     @FindBy(xpath = "//input[@class=\"input-text qty\"]")
     WebElement qty;
-
-    @FindBy(xpath = "//td[@class='product-cart-total']//span[@class='cart-price']")
-    WebElement subTotal;
 
     @FindBy(tagName = "h1")
     WebElement emptyMessage;
@@ -84,9 +74,6 @@ public class CartPage extends BasePage {
         return this;
     }
 
-    public boolean isOnThisPage() {
-        return driver.findElements(By.xpath("//*[@id='nav']//a")).size() > 0;
-    }
 
     public CheckoutPage goToCheckout() {
         toCheckoutButton.click();

@@ -9,18 +9,25 @@ public class LoginPage extends BasePage {
 
     @FindBy(tagName = "h1")
     WebElement pageInfo;
+
     @FindBy(xpath = "//a[@title='Create an Account']")
     WebElement createAccountButton;
+
     @FindBy(xpath = "//input[@id='email']")
     WebElement emailInput;
+
     @FindBy(xpath = "//input[@id='pass']")
     WebElement passwordInput;
+
     @FindBy(xpath = "//button[@id='send2']")
     WebElement loginButton;
+
     @FindBy(className = "validation-advice")
     WebElement validateMessage;
+
     @FindBy(xpath = "//li[@class='error-msg']")
     WebElement invalidMessage;
+
     @FindBy(xpath = "//a[contains(text(),'Mobile')]")
     WebElement gotoMobileLink;
 

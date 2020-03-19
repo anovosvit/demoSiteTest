@@ -1,18 +1,11 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class CheckoutPage extends BasePage {
-    public CheckoutPage(WebDriver driver) {
-        super(driver);
-        PageFactory.initElements(driver, this);
-    }
-
     @FindBy(xpath = "//label[contains(text(),'Ship to this address')]")
     WebElement thisAddressDelivery;
 
@@ -34,14 +27,10 @@ public class CheckoutPage extends BasePage {
     @FindBy(id = "review-buttons-container")
     WebElement review;
 
-//    @FindBy(tagName = "h1")
-//    WebElement successOrderMessage;
-//
-//    @FindBy(tagName = "h2")
-//    WebElement thankYouMessage;
-//
-//    @FindBy(xpath = "//div[@class='main-container col1-layout']//p[1]")
-//    WebElement yourOrderMessage;
+    public CheckoutPage(WebDriver driver) {
+        super(driver);
+        PageFactory.initElements(driver, this);
+    }
 
     public void selectThisAddress() {
         thisAddressDelivery.click();

@@ -39,6 +39,7 @@ public class LoginPageTest extends TestBase {
     void goToCreateAccount() {
         CreateAccountPage accountPage = loginPage.clickOnCreateAccountButton();
         assertEquals("Create New Customer Account", accountPage.getTitle());
+        assertEquals("CREATE AN ACCOUNT", accountPage.getPageInfo());
     }
 
     @ParameterizedTest(name = "#{index} - Login with invalid creds")

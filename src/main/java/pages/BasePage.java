@@ -9,7 +9,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public abstract class BasePage {
     WebDriver driver;
     WebDriverWait wait;
-    String url;
 
     @FindBy(xpath = "//span[contains(text(), 'Account')]")
     WebElement accountLink;

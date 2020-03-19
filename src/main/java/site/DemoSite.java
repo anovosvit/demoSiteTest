@@ -1,14 +1,15 @@
 package site;
 
+import helper.EventHandler;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import pages.*;
 
 import java.util.concurrent.TimeUnit;
 
 public class DemoSite {
-    private WebDriver driver;
+    EventFiringWebDriver driver;
     private HomePage homePage;
     private MobilePage mobilePage;
     private SearchResultPage searchResultPage;
@@ -20,7 +21,11 @@ public class DemoSite {
     private CheckoutPage checkoutPage;
 
     public DemoSite() {
-        this.driver = new ChromeDriver();
+        this.driver = new EventFiringWebDriver(new ChromeDriver());
+        this.driver.register(new EventHandler());
+        //this.driver.manage().window().maximize();
+        this.driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
         this.homePage = new HomePage(driver);
         this.mobilePage = new MobilePage(driver);
         this.searchResultPage = new SearchResultPage(driver);
@@ -30,8 +35,6 @@ public class DemoSite {
         this.loginPage = new LoginPage(driver);
         this.createAccountPage = new CreateAccountPage(driver);
         this.checkoutPage = new CheckoutPage(driver);
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
     }
 
     public WebDriver getDriver() {
@@ -46,20 +49,8 @@ public class DemoSite {
         return mobilePage;
     }
 
-    public SearchResultPage getSearchResultPage() {
-        return searchResultPage;
-    }
-
-    public ItemInfoPage getItemInfoPage() {
-        return itemInfoPage;
-    }
-
     public CartPage getCartPage() {
         return cartPage;
-    }
-
-    public WishlistPage getWishlistPage() {
-        return wishlistPage;
     }
 
     public HomePage openHomePage() {
@@ -76,10 +67,6 @@ public class DemoSite {
 
     public LoginPage openLoginPage() {
         return loginPage.open();
-    }
-
-    public CreateAccountPage openCreateAccountPage() {
-        return createAccountPage.open();
     }
 
     public void quit() {
